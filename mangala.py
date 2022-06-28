@@ -1,16 +1,15 @@
 class Mangala():
     def __init__(self):
-        self.tahta=[[4,4,4,1,0,4,0],[0,4,4,4,4,4,4,0]]
+        self.tahta=[[4,4,4,4,4,4,0],[4,4,4,4,4,4,0]]
     def oyna(self,start_index,player):
-        """This is the basic method of game that replace the stones between holes
+        """
+        This is the basic method of game that replace the stones between holes and 
+        when situation in 2nd and 3rd rules occures runs the rules.
 
         Args:
-            tahtam (list): the list that holds place of game board
             start_index (int): the index that you played
             player (int): understand which player is playing. Can be 0 or 1
 
-        Returns:nothing
-            _type_: _description_
         """
         tahtam=self.tahta
         if start_index!=6:
@@ -37,10 +36,17 @@ class Mangala():
             else:tahtam[player][start_index]=0
             self.tahta=tahtam
         else:pass#show error
-    # tahta=[0,4,4,4,4,4,4,0,4,4,4,4,4,4]
-    # tahta = oyna(tahta,3)
-    # print(tahta)
-    
-masa = Mangala()
-masa.oyna(3,0)
-print(masa.tahta)
+
+    def send_data(self):
+        """
+        Creates the data for flask template
+        """
+        data= {}
+        l = self.tahta[0]+self.tahta[1]
+        for a,i in enumerate(l):
+            data["hole"+str(a)]=i
+        return data
+if __name__=="__main__":
+    masa = Mangala()
+    masa.oyna(3,0)
+    print(masa.tahta)

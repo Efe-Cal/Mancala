@@ -5,30 +5,58 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Play!!!</title>
+    <style>
+        .hole {
+            background-color: #504400;
+            border: none;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            border-radius: 50%;
+            height:100%;width:100%;
+          }
+    </style>
 </head>
 <body>
-    <table border="2">
+    <table border="2" style="height:100%;width:100%;position: absolute; top: 0; bottom: 0; left: 0; right: 0;">
         
         <tr>
-            <td rowspan="2">0</td>
-            <td>4</td>
-            <td>4</td>
-            <td>4</td>
-            <td>4</td>
-            <td>4</td>
-            <td>4</td>
-            <td rowspan="2">0</td>
+            <td rowspan="2"><button id="b" style="background-color: #504400;" onclick="{{p}}">{{hole13}}</button></td>
+            <td><button class="hole" >{{hole0}}</button></td>
+            <td><button class="hole">{{hole1}}</button></td>
+            <td><button class="hole">{{hole2}}</button></td>
+            <td><button class="hole">{{hole3}}</button></td>
+            <td><button class="hole">{{hole4}}</button></td>
+            <td><button class="hole">{{hole5}}</button></td>
+            <td rowspan="2"><button >{{hole6}}</button></td>
         </tr>
         <tr>
-            <td>4</td>
-            <td>4</td>
-            <td>4</td>
-            <td>4</td>
-            <td>4</td>
-            <td>4</td>
+            <td><button class="hole">{{hole7}}</button></td>
+            <td><button class="hole">{{hole8}}</button></td>
+            <td><button class="hole">{{hole9}}</button></td>
+            <td><button class="hole">{{hole10}}</button></td>
+            <td><button class="hole">{{hole11}}</button></td>
+            <td><button class="hole">{{hole12}}</button></td>
             
         </tr>
         
     </table>
+    <!-- <script>
+        // jQuery here - you can use anything you want :-)
+        $.post({
+            url: "{{ url_for("play_game") }}",
+            success: function(data) {
+                console.log(data);
+            },
+            error: function() { console.log("Error", arguments); }
+        });
+    </script> -->
+    <script>
+        document.getElementById("b").addEventListener("click",function(e){console.log("ıofjd")})
+    </script>
 </body>
 </html>
