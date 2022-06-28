@@ -1,8 +1,12 @@
+from traceback import print_tb
+
+
 class Mangala():
     def __init__(self):
-        self.tahta=[[4,4,4,1,0,4,0],[0,4,4,4,4,4,4,0]]
+        self.tahta=[[4,4,4,4,4,4,0],[4,4,4,4,4,4,0]]
         self.current_player=0
     def oyna(self,start_index,player):
+        print("oynandı")
         """This is the basic method of game that replace the stones between holes
 
         Args:
@@ -39,11 +43,12 @@ class Mangala():
             self.tahta=tahtam
             self.current_player=0 if self.current_player else 1
         else:pass#show error
+    def get_data(self):
+        # print(self.tahta[0]+self.tahta[1])
+        return self.tahta[0]+self.tahta[1]
         
-    # tahta=[0,4,4,4,4,4,4,0,4,4,4,4,4,4]
-    # tahta = oyna(tahta,3)
-    # print(tahta)
-    
-masa = Mangala()
-masa.oyna(3,0)
-print(masa.tahta)
+if __name__=="__main__":
+    m=Mangala()
+    m.oyna(2,0)
+    m.get_data()
+    print(m.tahta)
