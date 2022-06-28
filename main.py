@@ -18,21 +18,21 @@ def button(x,y,w,h,pos):
         if 100<pos[1]<210:
             print("2st row")
             match mx:
-                case mx if 150<mx<220:mang.oyna(5,1)
-                case mx if 250<mx<320:mang.oyna(4,1)
-                case mx if 365<mx<435:mang.oyna(3,1)
-                case mx if 475<mx<545:mang.oyna(2,1)
-                case mx if 575<mx<645:mang.oyna(1,1)
-                case mx if 685<mx<755:mang.oyna(0,1)
+                case mx if 150<mx<220:mang.play(5,1)
+                case mx if 250<mx<320:mang.play(4,1)
+                case mx if 365<mx<435:mang.play(3,1)
+                case mx if 475<mx<545:mang.play(2,1)
+                case mx if 575<mx<645:mang.play(1,1)
+                case mx if 685<mx<755:mang.play(0,1)
         else:
             print("1nd row")
             match mx:
-                case mx if 150<mx<220:mang.oyna(0,0)
-                case mx if 250<mx<320:mang.oyna(1,0)
-                case mx if 365<mx<435:mang.oyna(2,0)
-                case mx if 475<mx<545:mang.oyna(3,0)
-                case mx if 575<mx<645:mang.oyna(4,0)
-                case mx if 685<mx<755:mang.oyna(5,0)
+                case mx if 150<mx<220:mang.play(0,0)
+                case mx if 250<mx<320:mang.play(1,0)
+                case mx if 365<mx<435:mang.play(2,0)
+                case mx if 475<mx<545:mang.play(3,0)
+                case mx if 575<mx<645:mang.play(4,0)
+                case mx if 685<mx<755:mang.play(5,0)
             
 def hole_nums(nums):
     #print(nums)
@@ -50,8 +50,7 @@ def hole_nums(nums):
         (365,100),
         (250,100),
         (150,100),
-        (55,100)
-        ]
+        (55,100)]
     for i,j in zip(nums,cords):
         text = font.render(str(i),True,(0,0,0))
         WIN.blit(text,j)
@@ -78,7 +77,11 @@ def main():
                 button(365,310,70,110,pos)
                 button(475,310,70,110,pos)
                 button(575,310,70,110,pos)
-                button(685,310,70,110,pos) 
+                button(685,310,70,110,pos)
+            
+            # if event.type == pygame.KEYDOWN or event.type == pygame.KEYUP:
+            #     if event.mod==pygame.K_l:
+            #         print("odjfs")
         
         hole_nums(mang.get_data())        
         pygame.display.update()
