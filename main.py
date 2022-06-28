@@ -14,7 +14,20 @@ def draw_win_bg():
 def button(x,y,w,h,pos):
     pygame.draw.rect(WIN,(0,0,0),(x,y,w,h))
     #(x+(x+w)//2,y+(y+h)//2)
-    if x+w>pos[0]>x and  y+h>pos[1]>y:print("Hellllooooooo")
+    if x+w>pos[0]>x and  y+h>pos[1]>y:
+        if 100<pos[1]<210:
+            print("2st row")
+            mx=pos[0]
+            match mx:
+                case mx if 150<mx<220:mang.oyna(5,1)
+                case mx if 250<mx<320:mang.oyna(4,1)
+                case mx if 365<mx<435:mang.oyna(3,1)
+                case mx if 475<mx<545:mang.oyna(2,1)
+                case mx if 575<mx<645:mang.oyna(1,1)
+                case mx if 685<mx<755:mang.oyna(0,1)
+        else:
+            print("1nd row")
+            
 def hole_nums(num,x,y):
     text = font.render(str(num),True,(0,0,0))
     WIN.blit(text,(x,y))
@@ -28,7 +41,6 @@ def main():
                 run = False
             if event.type == pygame.MOUSEBUTTONUP:
                 pos = pygame.mouse.get_pos()
-                print(pos)
                 button(150,100,70,110,pos)
                 button(250,100,70,110,pos)
                 button(365,100,70,110,pos)
