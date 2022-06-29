@@ -1,6 +1,7 @@
 import pygame
 import os
-from mangala import Mangala
+from mangala2 import Mangala
+from tkinter import Tk,messagebox
 mang=Mangala()
 WIDTH, HEIGHT = 900, 500
 WIN = pygame.display.set_mode ((WIDTH, HEIGHT))
@@ -10,14 +11,11 @@ pygame.init()
 font = pygame.font.Font('freesansbold.ttf', 32)
 def draw_win_bg():
     WIN.blit(bg, (0, 0))
-def button(x,y,w,h,pos):
-    pygame.draw.rect(WIN,(0,0,0),(x,y,w,h))
-    #(x+(x+w)//2,y+(y+h)//2)
+def button(x:int,y:int,w:int,h:int,pos:tuple):
     if x+w>pos[0]>x and  y+h>pos[1]>y:
         mx=pos[0]
-        if 100<pos[1]<210:
-            print("2st row")
-            match mx:
+        if 100<pos[1]<210: # checks if the curser is in the 1st row
+            match mx: # finds curser is on which hole
                 case mx if 150<mx<220:mang.play(5,1)
                 case mx if 250<mx<320:mang.play(4,1)
                 case mx if 365<mx<435:mang.play(3,1)
@@ -25,7 +23,6 @@ def button(x,y,w,h,pos):
                 case mx if 575<mx<645:mang.play(1,1)
                 case mx if 685<mx<755:mang.play(0,1)
         else:
-            print("1nd row")
             match mx:
                 case mx if 150<mx<220:mang.play(0,0)
                 case mx if 250<mx<320:mang.play(1,0)
@@ -34,8 +31,7 @@ def button(x,y,w,h,pos):
                 case mx if 575<mx<645:mang.play(4,0)
                 case mx if 685<mx<755:mang.play(5,0)
             
-def hole_nums(nums):
-    #print(nums)
+def add_nums2holes(nums=mang.get_data()):
     cords=[(150,310),
         (250,310),
         (365,310),
@@ -54,7 +50,27 @@ def hole_nums(nums):
     for i,j in zip(nums,cords):
         text = font.render(str(i),True,(0,0,0))
         WIN.blit(text,j)
-
+# class timer():
+#     def __init__(self,sec):
+#         self.st=pygame.time.get_ticks()
+#         self.sec=sec
+#     def check(self):
+#         if (pygame.time.get_ticks()-self.st)/1000>=self.sec:return True
+#         else:return False
+def show_msg():
+    # text = font.render("AAAAAAAA",True,(0,0,0))
+    # WIN.blit(text,(0,0))
+    # pygame.display.update()
+    # pygame.event.pump()
+    # pygame.time.wait(3000)
+    for i in mang.Msgs:
+        Tk().wm_withdraw()
+        messagebox.showinfo("",i)
+        mang.Msgs.clear()
+    
+    # t = timer(3)
+    # if t.check()!=True:
+    #     pygame.time.wait(1)
 def main():
     run = True
     while run:
@@ -64,7 +80,6 @@ def main():
                 run = False
             if event.type == pygame.MOUSEBUTTONUP:
                 pos = pygame.mouse.get_pos()
-                print(pos)
                 button(150,100,70,110,pos)
                 button(250,100,70,110,pos)
                 button(365,100,70,110,pos)
@@ -78,12 +93,9 @@ def main():
                 button(475,310,70,110,pos)
                 button(575,310,70,110,pos)
                 button(685,310,70,110,pos)
-            
-            # if event.type == pygame.KEYDOWN or event.type == pygame.KEYUP:
-            #     if event.mod==pygame.K_l:
-            #         print("odjfs")
-        
-        hole_nums(mang.get_data())        
+                
+        add_nums2holes(mang.get_data())
+        show_msg()
         pygame.display.update()
     pygame.quit()
     
