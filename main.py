@@ -1,16 +1,18 @@
 import pygame
 import os
-from mangala2 import Mangala
+from mangala import Mangala
 from tkinter import Tk,messagebox
 mang=Mangala()
 WIDTH, HEIGHT = 900, 500
 WIN = pygame.display.set_mode ((WIDTH, HEIGHT))
 pygame.display.set_caption("Mangala")
 bg = pygame.transform.scale(pygame.image.load(os.path.join("Assets","bg.png")),(900,500))
+helpB=pygame.transform.scale(pygame.image.load(os.path.join("Assets","help_button.png")),(50,50))
 pygame.init()
 font = pygame.font.Font('freesansbold.ttf', 32)
 def draw_win_bg():
     WIN.blit(bg, (0, 0))
+    WIN.blit(helpB,(850,0))
 def button(x:int,y:int,w:int,h:int,pos:tuple):
     if x+w>pos[0]>x and  y+h>pos[1]>y:
         mx=pos[0]
@@ -32,45 +34,31 @@ def button(x:int,y:int,w:int,h:int,pos:tuple):
                 case mx if 685<mx<755:mang.play(5,0)
             
 def add_nums2holes(nums=mang.get_data()):
-    cords=[(150,310),
-        (250,310),
-        (365,310),
-        (475,310),
-        (575,310),
-        (685,310),
-        (800,100),
-        
-        (685,100),
-        (575,100),
-        (475,100),
-        (365,100),
-        (250,100),
-        (150,100),
-        (55,100)]
+    cords=[(150+20,310+20),
+           (250+20,310+20),
+           (365+20,310+20),
+           (475+20,310+20),
+           (575+20,310+20),
+           (685+20,310+20),
+           (800+20,100+20),
+           
+           (685+20,100+20),
+           (575+20,100+20),
+           (475+20,100+20),
+           (365+20,100+20),
+           (250+20,100+20),
+           (150+20,100+20),
+           (55+20,100+20)]
     for i,j in zip(nums,cords):
         text = font.render(str(i),True,(0,0,0))
         WIN.blit(text,j)
-# class timer():
-#     def __init__(self,sec):
-#         self.st=pygame.time.get_ticks()
-#         self.sec=sec
-#     def check(self):
-#         if (pygame.time.get_ticks()-self.st)/1000>=self.sec:return True
-#         else:return False
+
 def show_msg():
-    # text = font.render("AAAAAAAA",True,(0,0,0))
-    # WIN.blit(text,(0,0))
-    # pygame.display.update()
-    # pygame.event.pump()
-    # pygame.time.wait(3000)
     for i in mang.Msgs:
         Tk().wm_withdraw()
         messagebox.showinfo("",i)
         mang.Msgs.clear()
-    
-    # t = timer(3)
-    # if t.check()!=True:
-    #     pygame.time.wait(1)
+
 def main():
     run = True
     while run:
@@ -80,6 +68,33 @@ def main():
                 run = False
             if event.type == pygame.MOUSEBUTTONUP:
                 pos = pygame.mouse.get_pos()
+                if 900>pos[0]>850 and 50>pos[1]>0:
+                    mang.Msgs.append("""1.TEMEL KURAL: Başlama hakkı kazanan oyuncu kendi bölgesinde istediği kuyudan 4 adet taşı
+alır. Avucunun içinde rakibinin görebileceği bir şekilde diğer eliyle kuyulara dağıtmaya başlar. Bir adet
+taşı aldığı kuyuya bırakıp saatin tersi yönünde, yani sağa doğru her bir kuyuya birer adet taş bırakarak
+elindeki taşlar bitene kadar dağıtır. Elindeki son taş hazinesine denk gelirse, oyuncu tekrar oynama
+hakkına sahip olur. Oyuncunun kuyusunda tek taş varsa, sırası geldiğinde bu taşı sağındaki kuyuya
+taşır. Hamle sırası rakibine geçer. Her seferinde oyuncunun elinde kalan son taş oyunun kaderini
+belirler.
+
+2.TEMEL KURAL: Hamle sırası gelen oyuncu kendi kuyusundan aldığı taşları avucunda rakibin
+görebileceği bir şekilde diğer eliyle dağıtırken avucunda taş kaldıysa, rakibinin bölgesindeki kuyulara taş
+bırakmaya devam eder. Eğer rakibinin kuyularına taş bıraktıktan sonra da elinde taş kaldıysa rakibinin
+hazinesine taş bırakmadan kendi bölgesine taş bırakmaya devam eder. Oyuncunun elindeki son taş,
+rakibinin bölgesinde denk geldiği kuyudaki taşların sayısını çift sayı yaparsa (2,4,6,8 gibi) oyuncu bu
+kuyuda yer alan tüm taşların sahibi olur ve onları kendi hazinesine koyar. Hamle sırası rakibine geçer.
+
+3.TEMEL KURAL: Oyuncu taşları dağıtırken elinde kalan son taş, yine kendi bölgesinde yer alan
+boş bir kuyuya denk gelirse ve boş kuyunun karşısındaki kuyuda da rakibine ait taş varsa hem rakibinin
+kuyusundaki taşları alır, hem de kendi boş kuyusuna bıraktığı tek taşı alıp hazinesine koyar. Eğer
+oyuncunun bölgesinde yer alan boş kuyunun karşısına denk gelen kuyuda rakibinin taşı yoksa oyuncu
+kendi boş kuyusuna bıraktığı taşı almaz. Her iki durumda da hamle sırası rakibine geçer.
+
+4.TEMEL KURAL: Oyunculardan herhangi birinin bölgesinde yer alan taşlar bittiğinde oyun seti
+biter. Oyunda kendi bölgesinde taşları ilk biten oyuncu, rakibinin bölgesinde bulunan tüm taşları da alıp,
+kendi hazinesine koyar.
+Oyun seti bittiğinde hakem oyuncuların hazinelerindeki taşları sayar ve en fazla taşı hazinesine
+biriktiren oyuncu oyun setini kazanmış olur.""")
                 button(150,100,70,110,pos)
                 button(250,100,70,110,pos)
                 button(365,100,70,110,pos)
@@ -96,6 +111,7 @@ def main():
                 
         add_nums2holes(mang.get_data())
         show_msg()
+        
         pygame.display.update()
     pygame.quit()
     
