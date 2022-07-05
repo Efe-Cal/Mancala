@@ -75,7 +75,7 @@ class Mangala():
         return self.tahta[0]+self.tahta[1]
     def send_data(self):
         data={}
-        for no,i in enumerate(self.get_data()):
+        for no,i in enumerate(self.tahta[0]+self.tahta[1]):
             data["hole"+str(no)]=i
         print(data)
         return data
