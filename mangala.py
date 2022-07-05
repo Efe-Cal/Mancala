@@ -1,52 +1,82 @@
 class Mangala():
     def __init__(self):
         self.tahta=[[4,4,4,4,4,4,0],[4,4,4,4,4,4,0]]
-    def oyna(self,start_index,player):
-        """
-        This is the basic method of game that replace the stones between holes and 
-        when situation in 2nd and 3rd rules occures runs the rules.
+        self.current_player=0
+        self.Msgs=[]
+    def play(self,start_index:int,player:int):
+        print("ıkjıdsf")
+        """This is the basic method of game that replace the stones between holes
 
         Args:
             start_index (int): the index that you played
             player (int): understand which player is playing. Can be 0 or 1
 
+        Returns:nothing
+            _type_: _description_
         """
-        tahtam=self.tahta
-        if start_index!=6:
+        PLAYABLE_HOLE=start_index!=6 and self.tahta[player][start_index]!=0
+        CORRECT_PLAYER=player==self.current_player
+        # [Following if block] checks if the hole is playable
+        if PLAYABLE_HOLE and CORRECT_PLAYER: 
+            print("pppppp")
             addone=0
-            if tahtam[player][start_index]==1:addone=1
-            for i in range(1,bkts:=tahtam[player][start_index]+addone):
-                try:
-                    tahtam[player][start_index+i]+=1
-                    if i == bkts-1 and tahtam[player][start_index+i]==1:
-                        tahtam[player][6]+=tahtam[player][start_index+i]+tahtam[0 if player else 1][5-start_index+i]
-                        tahtam[player][start_index+i],tahtam[0 if player else 1][5-start_index+i]=0,0
-                except IndexError:
-                    switchedplayer = 0 if player else 1
-                    
-                    # start_index-bkts
-                    tahtam[switchedplayer][i-bkts+3]+=1
-                    
-                    if i == bkts-1:
-                        if tahtam[switchedplayer][i-bkts+3]%2==0:
-                            tahtam[player][6]+=tahtam[switchedplayer][i-bkts+3]
-                            tahtam[switchedplayer][i-bkts+3]=0
-                            
-            if not tahtam[player][start_index]==1:tahtam[player][start_index]=1
-            else:tahtam[player][start_index]=0
-            self.tahta=tahtam
-        else:pass#show error
+            switchedplayer = 0 if player else 1
+            if self.tahta[player][start_index]==1:addone=1
+            # [Following for loop] moves the stons
+            for i in range(1,bkts:=self.tahta[player][start_index]+addone): 
+                LAST_STONE= i == bkts-1
+                subtract=0
+                match a := start_index+i:
+                    case a if 7>a>0: 
+                        self.tahta[player][start_index+i]+=1
+                        # [Following if block] checks if the situation in 3rd rule and enforces the rule
+                        REQ_FOR_3RD_RULE=self.tahta[player][start_index+i+subtract+addone]==1 and start_index+i+subtract+addone!=6 and self.tahta[0 if player else 1][5-(start_index+i+subtract+addone)]!=0
+                        if LAST_STONE and REQ_FOR_3RD_RULE :
+                            print("*****")
+                            self.tahta[player][6] += self.tahta[player][start_index+i+subtract+addone] + self.tahta[0 if player else 1][5-(start_index+i+subtract+addone)]
+                            self.tahta[player][start_index+i+subtract+addone]=0
+                            self.tahta[0 if player else 1][5-(start_index+i+subtract+addone)]=0
+                    case a if 13>a>6:
+                        self.tahta[0 if player else 1][(start_index+i)-7]+=1
+                        subtract=-7
+                        # [Following if block] checks if the situation in 2nd rule and enforces the rule
+                        if LAST_STONE: 
+                            print("###")
+                            if self.tahta[switchedplayer][(start_index+i)+subtract]%2==0:
+                                self.tahta[player][6]+=self.tahta[switchedplayer][(start_index+i)+subtract]
+                                self.tahta[switchedplayer][(start_index+i)+subtract]=0
+                    case 13:continue
+                    case a if 19>a>13:
+                        self.tahta[player][(start_index+i)-14]+=1
+                        subtract=-14
+                        # [Following if block] checks if the situation in 3rd rule and enforces the rule
+                        REQ_FOR_3RD_RULE=self.tahta[player][start_index+i+subtract+addone]==1 and start_index+i+subtract+addone!=6 and self.tahta[0 if player else 1][5-(start_index+i+subtract+addone)]!=0
+                        if LAST_STONE and REQ_FOR_3RD_RULE :
+                            self.tahta[player][6] += self.tahta[player][start_index+i+subtract+addone] + self.tahta[0 if player else 1][5-(start_index+i+subtract+addone)]
+                            self.tahta[player][start_index+i+subtract+addone]=0
+                            self.tahta[0 if player else 1][5-(start_index+i+subtract+addone)]=0
 
+            
+                      
+            if not self.tahta[player][start_index]==1:self.tahta[player][start_index]=1
+            else:self.tahta[player][start_index]=0
+            if not start_index+bkts-1==6:self.current_player=0 if self.current_player else 1
+            # [Following if block] checks win situation
+            if self.tahta[0].count(0)==6 or self.tahta[1].count(0)==6:
+                switchedplayer = 0 if player else 1
+                self.tahta[player][6]+=sum(self.tahta[switchedplayer])
+                if self.tahta[0][6]>self.tahta[0][6]:self.Msgs.append("Kazanan Oyuncu 1")
+                else:self.Msgs.append("Kazanan Oyuncu 2")
+        else:
+            if start_index==6:self.Msgs.append("Bu taşlar hareket ettirilemez.")
+            if player!=self.current_player:self.Msgs.append("Sıra diğer oyuncuda.")
+            if self.tahta[player][start_index]==0:self.Msgs.append("Bu kuyuda hiç taş yok.")
+    def get_data(self):
+        return self.tahta[0]+self.tahta[1]
     def send_data(self):
-        """
-        Creates the data for flask template
-        """
-        data= {}
-        l = self.tahta[0]+self.tahta[1]
-        for a,i in enumerate(l):
-            data["hole"+str(a)]=i
+        data={}
+        for no,i in enumerate(self.get_data()):
+            data["hole"+str(no)]=i
+        print(data)
         return data
-if __name__=="__main__":
-    masa = Mangala()
-    masa.oyna(3,0)
-    print(masa.tahta)
+    
