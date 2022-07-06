@@ -30,12 +30,12 @@ class Mangala():
                     case a if 7>a>0: 
                         self.tahta[player][start_index+i]+=1
                         # [Following if block] checks if the situation in 3rd rule and enforces the rule
-                        REQ_FOR_3RD_RULE=self.tahta[player][start_index+i+subtract+addone]==1 and start_index+i+subtract+addone!=6 and self.tahta[0 if player else 1][5-(start_index+i+subtract+addone)]!=0
+                        REQ_FOR_3RD_RULE=self.tahta[player][start_index+i+subtract]==1 and start_index+i+subtract!=6 and self.tahta[0 if player else 1][5-(start_index+i+subtract)]!=0
                         if LAST_STONE and REQ_FOR_3RD_RULE :
                             print("*****")
-                            self.tahta[player][6] += self.tahta[player][start_index+i+subtract+addone] + self.tahta[0 if player else 1][5-(start_index+i+subtract+addone)]
-                            self.tahta[player][start_index+i+subtract+addone]=0
-                            self.tahta[0 if player else 1][5-(start_index+i+subtract+addone)]=0
+                            self.tahta[player][6] += self.tahta[player][start_index+i+subtract] + self.tahta[0 if player else 1][5-(start_index+i+subtract)]
+                            self.tahta[player][start_index+i+subtract]=0
+                            self.tahta[0 if player else 1][5-(start_index+i+subtract)]=0
                     case a if 13>a>6:
                         self.tahta[0 if player else 1][(start_index+i)-7]+=1
                         subtract=-7
@@ -80,3 +80,7 @@ class Mangala():
         print(data)
         return data
     
+if __name__ == '__main__':
+    m = Mangala()
+    m.play(5,0)
+    print(m.tahta)

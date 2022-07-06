@@ -1,4 +1,4 @@
-from flask import Flask,render_template,redirect,url_for,request
+from flask import Flask,render_template  #,redirect,url_for,request
 from mangala import Mangala
 from socket import gethostbyname,gethostname
 
@@ -19,7 +19,7 @@ secret_key_maker(app)
 
 
 @app.route("/")
-def play_game(reload=False):
+def play_game():
     
     return render_template("game_page.html",**mang.send_data())
 
@@ -27,7 +27,8 @@ def play_game(reload=False):
 def play(player,index):
     mang.play(int(index),int(player))
     print(mang.tahta)
-    return redirect(url_for('play_game'))
+    return str(mang.tahta[0]+mang.tahta[1]).replace("[","").replace("]","")
+    #return redirect(url_for('play_game'))
     
 if __name__ == "__main__":
     app.run(debug=False,host=ip_addr)
