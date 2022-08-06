@@ -22,14 +22,14 @@ class Mangala():
             if self.tahta[player][start_index]==1:addone=1
             # [Following for loop] moves the stons
             for i in range(1,bkts:=self.tahta[player][start_index]+addone): 
-                LAST_STONE= i == bkts-1
+                self.LAST_STONE= i == bkts-1
                 subtract=0
                 match a := start_index+i:
                     case a if 7>a>0: 
                         self.tahta[player][start_index+i]+=1
                         # [Following if block] checks if the situation in 3rd rule and enforces the rule
                         REQ_FOR_3RD_RULE=self.tahta[player][start_index+i+subtract+addone]==1 and start_index+i+subtract+addone!=6 and self.tahta[0 if player else 1][5-(start_index+i+subtract+addone)]!=0
-                        if LAST_STONE and REQ_FOR_3RD_RULE :
+                        if self.LAST_STONE and REQ_FOR_3RD_RULE :
                             print("*****")
                             self.tahta[player][6] += self.tahta[player][start_index+i+subtract+addone] + self.tahta[0 if player else 1][5-(start_index+i+subtract+addone)]
                             self.tahta[player][start_index+i+subtract+addone]=0
@@ -38,7 +38,7 @@ class Mangala():
                         self.tahta[0 if player else 1][(start_index+i)-7]+=1
                         subtract=-7
                         # [Following if block] checks if the situation in 2nd rule and enforces the rule
-                        if LAST_STONE: 
+                        if self.LAST_STONE: 
                             print("###")
                             if self.tahta[switchedplayer][(start_index+i)+subtract]%2==0:
                                 self.tahta[player][6]+=self.tahta[switchedplayer][(start_index+i)+subtract]
@@ -49,7 +49,7 @@ class Mangala():
                         subtract=-14
                         # [Following if block] checks if the situation in 3rd rule and enforces the rule
                         REQ_FOR_3RD_RULE=self.tahta[player][start_index+i+subtract]==1 and start_index+i+subtract!=6 and self.tahta[0 if player else 1][5-(start_index+i+subtract)]!=0
-                        if LAST_STONE and REQ_FOR_3RD_RULE :
+                        if self.LAST_STONE and REQ_FOR_3RD_RULE :
                             self.tahta[player][6] += self.tahta[player][start_index+i+subtract] + self.tahta[0 if player else 1][5-(start_index+i+subtract)]
                             self.tahta[player][start_index+i+subtract]=0
                             self.tahta[0 if player else 1][5-(start_index+i+subtract)]=0
@@ -70,7 +70,8 @@ class Mangala():
             if player!=self.current_player:self.Msgs.append("Sıra diğer oyuncuda.")
             if self.tahta[player][start_index]==0:self.Msgs.append("Bu kuyuda hiç taş yok.")
     def get_data(self):
-        return self.tahta[0]+self.tahta[1]
+        if self.current_player==0:return self.tahta[0]+self.tahta[1]
+        else:return self.tahta[1]+self.tahta[0]
         
 if __name__=="__main__":
     m=Mangala()

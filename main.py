@@ -1,37 +1,45 @@
+from msilib.schema import Error
 import pygame
 import os
 from mangala import Mangala
 from tkinter import Tk,messagebox
+import event_scheduler
 mang=Mangala()
 WIDTH, HEIGHT = 900, 500
 WIN = pygame.display.set_mode ((WIDTH, HEIGHT))
 pygame.display.set_caption("Mangala")
 bg = pygame.transform.scale(pygame.image.load(os.path.join("Assets","bg.png")),(900,500))
 helpB=pygame.transform.scale(pygame.image.load(os.path.join("Assets","help_button.png")),(50,50))
+arrows=pygame.image.load(os.path.join("Assets","arrows.png"))
 pygame.init()
 font = pygame.font.Font('freesansbold.ttf', 32)
 def draw_win_bg():
     WIN.blit(bg, (0, 0))
     WIN.blit(helpB,(850,0))
+    
+    
 def button(x:int,y:int,w:int,h:int,pos:tuple):
     if x+w>pos[0]>x and  y+h>pos[1]>y:
         mx=pos[0]
         if 100<pos[1]<210: # checks if the curser is in the 1st row
-            match mx: # finds curser is on which hole
-                case mx if 150<mx<220:mang.play(5,1)
-                case mx if 250<mx<320:mang.play(4,1)
-                case mx if 365<mx<435:mang.play(3,1)
-                case mx if 475<mx<545:mang.play(2,1)
-                case mx if 575<mx<645:mang.play(1,1)
-                case mx if 685<mx<755:mang.play(0,1)
-        else:
-            match mx:
-                case mx if 150<mx<220:mang.play(0,0)
-                case mx if 250<mx<320:mang.play(1,0)
-                case mx if 365<mx<435:mang.play(2,0)
-                case mx if 475<mx<545:mang.play(3,0)
-                case mx if 575<mx<645:mang.play(4,0)
-                case mx if 685<mx<755:mang.play(5,0)
+            pass #send error message
+            # match mx: # finds curser is on which hole
+            #     case mx if 150<mx<220:mang.play(5,1)
+            #     case mx if 250<mx<320:mang.play(4,1)
+            #     case mx if 365<mx<435:mang.play(3,1)
+            #     case mx if 475<mx<545:mang.play(2,1)
+            #     case mx if 575<mx<645:mang.play(1,1)
+            #     case mx if 685<mx<755:mang.play(0,1)
+        else: 
+            if 150<mx<220:mang.play(0,mang.current_player)
+            if 250<mx<320:mang.play(1,mang.current_player)
+            if 365<mx<435:mang.play(2,mang.current_player)
+            if 475<mx<545:mang.play(3,mang.current_player)
+            if 575<mx<645:mang.play(4,mang.current_player)
+            if 685<mx<755:mang.play(5,mang.current_player)
+        if not mang.LAST_STONE:
+            show.append(arrows)
+            x=False
             
 def add_nums2holes(nums=mang.get_data()):
     cords=[(150+20,310+20),
@@ -61,6 +69,11 @@ def show_msg():
 
 def main():
     run = True
+    global show,x
+    show=[]
+    x=False
+    eventsc=event_scheduler.EventScheduler()
+    eventsc.start()
     while run:
         draw_win_bg()
         for event in pygame.event.get():
@@ -95,12 +108,12 @@ biter. Oyunda kendi bölgesinde taşları ilk biten oyuncu, rakibinin bölgesind
 kendi hazinesine koyar.
 Oyun seti bittiğinde hakem oyuncuların hazinelerindeki taşları sayar ve en fazla taşı hazinesine
 biriktiren oyuncu oyun setini kazanmış olur.""")
-                button(150,100,70,110,pos)
-                button(250,100,70,110,pos)
-                button(365,100,70,110,pos)
-                button(475,100,70,110,pos)
-                button(575,100,70,110,pos)
-                button(685,100,70,110,pos)
+                # button(150,100,70,110,pos)
+                # button(250,100,70,110,pos)
+                # button(365,100,70,110,pos)
+                # button(475,100,70,110,pos)
+                # button(575,100,70,110,pos)
+                # button(685,100,70,110,pos)
                 
                 button(150,310,70,110,pos)
                 button(250,310,70,110,pos)
@@ -112,8 +125,17 @@ biriktiren oyuncu oyun setini kazanmış olur.""")
         add_nums2holes(mang.get_data())
         show_msg()
         
+        try:
+            WIN.blit(show[0],(400,210))
+            if x == False:
+                eventsc.enter(1.5,0,lambda:show.clear())
+                x=True
+        except IndexError:pass
+        
+        
         pygame.display.update()
     pygame.quit()
+    eventsc.stop(True)
     
 if __name__ == '__main__':
     main()
