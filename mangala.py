@@ -22,7 +22,7 @@ class Mangala():
             if self.tahta[player][start_index]==1:addone=1
             # [Following for loop] moves the stons
             for i in range(1,bkts:=self.tahta[player][start_index]+addone): 
-                self.LAST_STONE= i == bkts-1
+                self.LAST_STONE = i == bkts-1
                 subtract=0
                 match a := start_index+i:
                     case a if 7>a>0: 
@@ -30,7 +30,7 @@ class Mangala():
                         # [Following if block] checks if the situation in 3rd rule and enforces the rule
                         REQ_FOR_3RD_RULE=self.tahta[player][start_index+i+subtract+addone]==1 and start_index+i+subtract+addone!=6 and self.tahta[0 if player else 1][5-(start_index+i+subtract+addone)]!=0
                         if self.LAST_STONE and REQ_FOR_3RD_RULE :
-                            print("*****")
+                            # print("*****")
                             self.tahta[player][6] += self.tahta[player][start_index+i+subtract+addone] + self.tahta[0 if player else 1][5-(start_index+i+subtract+addone)]
                             self.tahta[player][start_index+i+subtract+addone]=0
                             self.tahta[0 if player else 1][5-(start_index+i+subtract+addone)]=0
@@ -39,7 +39,7 @@ class Mangala():
                         subtract=-7
                         # [Following if block] checks if the situation in 2nd rule and enforces the rule
                         if self.LAST_STONE: 
-                            print("###")
+                            # print("###")
                             if self.tahta[switchedplayer][(start_index+i)+subtract]%2==0:
                                 self.tahta[player][6]+=self.tahta[switchedplayer][(start_index+i)+subtract]
                                 self.tahta[switchedplayer][(start_index+i)+subtract]=0
@@ -58,7 +58,8 @@ class Mangala():
                       
             if not self.tahta[player][start_index]==1:self.tahta[player][start_index]=1
             else:self.tahta[player][start_index]=0
-            if not start_index+bkts-1==6:self.current_player=0 if self.current_player else 1
+            self.LAST_STONE_IN_STORE=start_index+bkts-1==6
+            if not self.LAST_STONE_IN_STORE:self.current_player=0 if self.current_player else 1
             # [Following if block] checks win situation
             if self.tahta[0].count(0)==6 or self.tahta[1].count(0)==6:
                 switchedplayer = 0 if player else 1
@@ -85,4 +86,3 @@ if __name__=="__main__":
     print(m.tahta)
     m.play(4,0)
     print(m.tahta)
-    

@@ -1,4 +1,3 @@
-from msilib.schema import Error
 import pygame
 import os
 from mangala import Mangala
@@ -23,13 +22,6 @@ def button(x:int,y:int,w:int,h:int,pos:tuple):
         mx=pos[0]
         if 100<pos[1]<210: # checks if the curser is in the 1st row
             pass #send error message
-            # match mx: # finds curser is on which hole
-            #     case mx if 150<mx<220:mang.play(5,1)
-            #     case mx if 250<mx<320:mang.play(4,1)
-            #     case mx if 365<mx<435:mang.play(3,1)
-            #     case mx if 475<mx<545:mang.play(2,1)
-            #     case mx if 575<mx<645:mang.play(1,1)
-            #     case mx if 685<mx<755:mang.play(0,1)
         else: 
             if 150<mx<220:mang.play(0,mang.current_player)
             if 250<mx<320:mang.play(1,mang.current_player)
@@ -37,7 +29,8 @@ def button(x:int,y:int,w:int,h:int,pos:tuple):
             if 475<mx<545:mang.play(3,mang.current_player)
             if 575<mx<645:mang.play(4,mang.current_player)
             if 685<mx<755:mang.play(5,mang.current_player)
-        if not mang.LAST_STONE:
+        # print(mang.LAST_STONE_IN_STORE)
+        if mang.LAST_STONE_IN_STORE==False:
             show.append(arrows)
             x=False
             
@@ -67,13 +60,17 @@ def show_msg():
         messagebox.showinfo("",i)
         mang.Msgs.clear()
 
+def clear():
+    global show,x
+    show.clear()
+    x = False
 def main():
     run = True
     global show,x
     show=[]
     x=False
     eventsc=event_scheduler.EventScheduler()
-    eventsc.start()
+    # eventsc.start()
     while run:
         draw_win_bg()
         for event in pygame.event.get():
@@ -126,9 +123,13 @@ biriktiren oyuncu oyun setini kazanmış olur.""")
         show_msg()
         
         try:
+            
             WIN.blit(show[0],(400,210))
+            # print(show)
             if x == False:
-                eventsc.enter(1.5,0,lambda:show.clear())
+                
+                eventsc.start()
+                print(eventsc.enter(1.5,1,clear))
                 x=True
         except IndexError:pass
         
