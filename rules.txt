@@ -1,0 +1,26 @@
+1.TEMEL KURAL: Başlama hakkı kazanan oyuncu kendi bölgesinde istediği kuyudan 4 adet taşı
+alır. Avucunun içinde rakibinin görebileceği bir şekilde diğer eliyle kuyulara dağıtmaya başlar. Bir adet
+taşı aldığı kuyuya bırakıp saatin tersi yönünde, yani sağa doğru her bir kuyuya birer adet taş bırakarak
+elindeki taşlar bitene kadar dağıtır. Elindeki son taş hazinesine denk gelirse, oyuncu tekrar oynama
+hakkına sahip olur. Oyuncunun kuyusunda tek taş varsa, sırası geldiğinde bu taşı sağındaki kuyuya
+taşır. Hamle sırası rakibine geçer. Her seferinde oyuncunun elinde kalan son taş oyunun kaderini
+belirler.
+
+2.TEMEL KURAL: Hamle sırası gelen oyuncu kendi kuyusundan aldığı taşları avucunda rakibin
+görebileceği bir şekilde diğer eliyle dağıtırken avucunda taş kaldıysa, rakibinin bölgesindeki kuyulara taş
+bırakmaya devam eder. Eğer rakibinin kuyularına taş bıraktıktan sonra da elinde taş kaldıysa rakibinin
+hazinesine taş bırakmadan kendi bölgesine taş bırakmaya devam eder. Oyuncunun elindeki son taş,
+rakibinin bölgesinde denk geldiği kuyudaki taşların sayısını çift sayı yaparsa (2,4,6,8 gibi) oyuncu bu
+kuyuda yer alan tüm taşların sahibi olur ve onları kendi hazinesine koyar. Hamle sırası rakibine geçer.
+
+3.TEMEL KURAL: Oyuncu taşları dağıtırken elinde kalan son taş, yine kendi bölgesinde yer alan
+boş bir kuyuya denk gelirse ve boş kuyunun karşısındaki kuyuda da rakibine ait taş varsa hem rakibinin
+kuyusundaki taşları alır, hem de kendi boş kuyusuna bıraktığı tek taşı alıp hazinesine koyar. Eğer
+oyuncunun bölgesinde yer alan boş kuyunun karşısına denk gelen kuyuda rakibinin taşı yoksa oyuncu
+kendi boş kuyusuna bıraktığı taşı almaz. Her iki durumda da hamle sırası rakibine geçer.
+
+4.TEMEL KURAL: Oyunculardan herhangi birinin bölgesinde yer alan taşlar bittiğinde oyun seti
+biter. Oyunda kendi bölgesinde taşları ilk biten oyuncu, rakibinin bölgesinde bulunan tüm taşları da alıp,
+kendi hazinesine koyar.
+Oyun seti bittiğinde hakem oyuncuların hazinelerindeki taşları sayar ve en fazla taşı hazinesine
+biriktiren oyuncu oyun setini kazanmış olur.
