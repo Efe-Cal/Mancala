@@ -54,7 +54,6 @@ def button(x:int,y:int,w:int,h:int,pos:tuple):
             if 475<mx<545:mang.play(3,mang.current_player)
             if 575<mx<645:mang.play(4,mang.current_player)
             if 685<mx<755:mang.play(5,mang.current_player)
-        # print(mang.LAST_STONE_IN_STORE)
         if mang.LAST_STONE_IN_STORE==False:
             show.append(arrows)
             x=False
@@ -67,7 +66,7 @@ def show_msg():
         messagebox.showinfo("",i)
         mang.Msgs.clear()
 
-def clear():
+def clear(): # removes arrows from sceen by clearing show list
     global show,x
     show.clear()
     x = False
@@ -93,13 +92,7 @@ def main():
                 pos = pygame.mouse.get_pos()
                 if 900>pos[0]>850 and 50>pos[1]>0:
                     mang.Msgs.append(open("rules.txt","r",encoding="utf-8").read())
-                # button(150,100,70,110,pos)
-                # button(250,100,70,110,pos)
-                # button(365,100,70,110,pos)
-                # button(475,100,70,110,pos)
-                # button(575,100,70,110,pos)
-                # button(685,100,70,110,pos)
-                
+
                 button(150,310,70,110,pos)
                 button(250,310,70,110,pos)
                 button(365,310,70,110,pos)
@@ -111,11 +104,10 @@ def main():
         try:
             
             WIN.blit(show[0],(375,175))
-            # print(show)
             if x == False:
-                eventsc.enter(.4,1,clear)
+                eventsc.enter(.7,1,clear)
                 bgl=[pygame.transform.rotate(pygame.transform.scale(bg,(500,277)),90.0),(312,0)]
-                eventsc.enter(.4,2,reset_bg)
+                eventsc.enter(.7,2,reset_bg)
                 x=True
         except IndexError:pass
         
