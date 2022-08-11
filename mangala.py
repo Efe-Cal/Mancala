@@ -28,7 +28,7 @@ class Mangala():
                     case a if 7>a>0: 
                         self.tahta[player][start_index+i]+=1
                         # [Following if block] checks if the situation in 3rd rule and enforces the rule
-                        REQ_FOR_3RD_RULE=self.tahta[player][start_index+i+subtract+addone]==1 and start_index+i+subtract+addone!=6 and self.tahta[0 if player else 1][5-(start_index+i+subtract+addone)]!=0
+                        REQ_FOR_3RD_RULE=self.tahta[player][start_index+i+subtract]==1 and start_index+i+subtract!=6 and self.tahta[0 if player else 1][5-(start_index+i+subtract)]!=0
                         if self.LAST_STONE and REQ_FOR_3RD_RULE :
                             # print("*****")
                             self.tahta[player][6] += self.tahta[player][start_index+i+subtract+addone] + self.tahta[0 if player else 1][5-(start_index+i+subtract+addone)]
@@ -70,9 +70,14 @@ class Mangala():
             if start_index==6:self.Msgs.append("Bu taşlar hareket ettirilemez.")
             if player!=self.current_player:self.Msgs.append("Sıra diğer oyuncuda.")
             if self.tahta[player][start_index]==0:self.Msgs.append("Bu kuyuda hiç taş yok.")
-    def get_data(self):
-        if self.current_player==0:return self.tahta[0]+self.tahta[1]
-        else:return self.tahta[1]+self.tahta[0]
+    def get_data(self,undoRotate):
+        if not undoRotate:
+            if self.current_player==0:return self.tahta[0]+self.tahta[1]
+            else:return self.tahta[1]+self.tahta[0]
+        else:
+            if self.current_player==1:return self.tahta[0]+self.tahta[1]
+            else:return self.tahta[1]+self.tahta[0]
+        
         
 if __name__=="__main__":
     m=Mangala()

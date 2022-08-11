@@ -13,7 +13,7 @@ arrows=pygame.transform.scale(pygame.image.load(os.path.join("Assets","arrows.pn
 pygame.init()
 font = pygame.font.Font('freesansbold.ttf', 32)
 
-def add_nums2holes(nums=mang.get_data()):
+def add_nums2holes(nums=mang.get_data(False)):
     cords=[(150+20,310+20),
            (250+20,310+20),
            (365+20,310+20),
@@ -34,15 +34,16 @@ def add_nums2holes(nums=mang.get_data()):
         WIN.blit(text,j)
 
 bgl = [bg,(0,0)]
-def draw_win_bg():
+def draw_win_bg(uR=False):
     global bgl
     WIN.fill((0,0,0))
     WIN.blit(bgl[0], bgl[1])
     WIN.blit(helpB,(850,0))
-    if bgl==[bg,(0,0)]:add_nums2holes(mang.get_data())
+    if bgl==[bg,(0,0)]:add_nums2holes(mang.get_data(uR))
     
     
 def button(x:int,y:int,w:int,h:int,pos:tuple):
+    global b,a
     if x+w>pos[0]>x and  y+h>pos[1]>y:
         mx=pos[0]
         if 100<pos[1]<210: # checks if the curser is in the 1st row
@@ -56,9 +57,9 @@ def button(x:int,y:int,w:int,h:int,pos:tuple):
             if 685<mx<755:mang.play(5,mang.current_player)
         if mang.LAST_STONE_IN_STORE==False:
             show.append(arrows)
-            x=False
+            b=False
+            a = True
             
-
 
 def show_msg():
     for i in mang.Msgs:
@@ -67,20 +68,32 @@ def show_msg():
         mang.Msgs.clear()
 
 def clear(): # removes arrows from sceen by clearing show list
-    global show,x
+    global show,b
     show.clear()
-    x = False
+    b = False
     
 def reset_bg():
     global bgl
     bgl = [bg,(0,0)]
+rotated=pygame.transform.rotate(pygame.transform.scale(bg,(500,277)),90.0)  
+def rotationJob():
+    global bgl,b,show,c,eventsche
+    c = False
+    if b == False:
+        eventsc.enter(.7,1,clear)
+        bgl=[rotated,(312,0)]
+        eventsc.enter(.7,2,reset_bg)
+        b=True
     
+
 
 def main():
     run = True
-    global show,x,bgl
+    global show,b,bgl,a,c,eventsc
     show=[]
-    x=False
+    b=False
+    a=False
+    c=False
     eventsc=event_scheduler.EventScheduler()
     eventsc.start()
     while run:
@@ -102,19 +115,20 @@ def main():
         show_msg()
         
         try:
-            
             WIN.blit(show[0],(375,175))
-            if x == False:
-                eventsc.enter(.7,1,clear)
-                bgl=[pygame.transform.rotate(pygame.transform.scale(bg,(500,277)),90.0),(312,0)]
-                eventsc.enter(.7,2,reset_bg)
-                x=True
+            if a:
+                eventsc.enter(1.2,0,rotationJob)
+                a=False
+                c=True
+                draw_win_bg(True)
+                pygame.display.update()
         except IndexError:pass
         
         
-        pygame.display.update()
+        if not c:pygame.display.update()
     pygame.quit()
-    eventsc.stop(True)
+    
     
 if __name__ == '__main__':
     main()
+    eventsc.stop(True)
