@@ -43,7 +43,7 @@ def draw_win_bg(uR=False):
     
     
 def button(x:int,y:int,w:int,h:int,pos:tuple):
-    global b,a
+    global DO_ROT1TIME
     if x+w>pos[0]>x and  y+h>pos[1]>y:
         mx=pos[0]
         if 100<pos[1]<210: # checks if the curser is in the 1st row
@@ -57,8 +57,7 @@ def button(x:int,y:int,w:int,h:int,pos:tuple):
             if 685<mx<755:mang.play(5,mang.current_player)
         if mang.LAST_STONE_IN_STORE==False:
             show.append(arrows)
-            b=False
-            a = True
+            DO_ROT1TIME = True
             
 
 def show_msg():
@@ -77,23 +76,21 @@ def reset_bg():
     bgl = [bg,(0,0)]
 rotated=pygame.transform.rotate(pygame.transform.scale(bg,(500,277)),90.0)  
 def rotationJob():
-    global bgl,b,show,c,eventsche
-    c = False
-    if b == False:
-        eventsc.enter(.7,1,clear)
-        bgl=[rotated,(312,0)]
-        eventsc.enter(.7,2,reset_bg)
-        b=True
-    
+    global bgl,show,PAUSE_UPDATING_SCREEN
+    PAUSE_UPDATING_SCREEN = False
+    #if b == False:
+    eventsc.enter(.7,1,clear)
+    bgl=[rotated,(312,0)]
+    eventsc.enter(.7,2,reset_bg)
+
 
 
 def main():
     run = True
-    global show,b,bgl,a,c,eventsc
+    global show,bgl,DO_ROT1TIME,PAUSE_UPDATING_SCREEN,eventsc
     show=[]
-    b=False
-    a=False
-    c=False
+    DO_ROT1TIME=False
+    PAUSE_UPDATING_SCREEN=False
     eventsc=event_scheduler.EventScheduler()
     eventsc.start()
     while run:
@@ -116,16 +113,16 @@ def main():
         
         try:
             WIN.blit(show[0],(375,175))
-            if a:
+            if DO_ROT1TIME:
                 eventsc.enter(1.2,0,rotationJob)
-                a=False
-                c=True
+                DO_ROT1TIME=False
+                PAUSE_UPDATING_SCREEN=True
                 draw_win_bg(True)
                 pygame.display.update()
         except IndexError:pass
         
         
-        if not c:pygame.display.update()
+        if not PAUSE_UPDATING_SCREEN:pygame.display.update()
     pygame.quit()
     
     
