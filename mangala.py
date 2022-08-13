@@ -70,7 +70,7 @@ class Mangala():
             if start_index==6:self.Msgs.append("Bu taşlar hareket ettirilemez.")
             if player!=self.current_player:self.Msgs.append("Sıra diğer oyuncuda.")
             if self.tahta[player][start_index]==0:self.Msgs.append("Bu kuyuda hiç taş yok.")
-    def get_data(self,undoRotate):
+    def get_data(self,undoRotate=False):
         if not undoRotate:
             if self.current_player==0:return self.tahta[0]+self.tahta[1]
             else:return self.tahta[1]+self.tahta[0]
