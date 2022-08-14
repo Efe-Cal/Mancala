@@ -31,9 +31,9 @@ class Mangala():
                         REQ_FOR_3RD_RULE=self.tahta[player][start_index+i+subtract]==1 and start_index+i+subtract!=6 and self.tahta[0 if player else 1][5-(start_index+i+subtract)]!=0
                         if self.LAST_STONE and REQ_FOR_3RD_RULE :
                             # print("*****")
-                            self.tahta[player][6] += self.tahta[player][start_index+i+subtract+addone] + self.tahta[0 if player else 1][5-(start_index+i+subtract+addone)]
-                            self.tahta[player][start_index+i+subtract+addone]=0
-                            self.tahta[0 if player else 1][5-(start_index+i+subtract+addone)]=0
+                            self.tahta[player][6] += self.tahta[player][start_index+i+subtract] + self.tahta[0 if player else 1][5-(start_index+i+subtract)]
+                            self.tahta[player][start_index+i+subtract]=0
+                            self.tahta[0 if player else 1][5-(start_index+i+subtract)]=0
                     case a if 13>a>6:
                         self.tahta[0 if player else 1][(start_index+i)-7]+=1
                         subtract=-7
@@ -63,7 +63,8 @@ class Mangala():
             # [Following if block] checks win situation
             if self.tahta[0].count(0)==6 or self.tahta[1].count(0)==6:
                 switchedplayer = 0 if player else 1
-                self.tahta[player][6]+=sum(self.tahta[switchedplayer])
+                self.tahta[player][6]+=sum(self.tahta[switchedplayer][:5])
+                self.tahta[switchedplayer][:5]=[0]*6
                 if self.tahta[0][6]>self.tahta[0][6]:self.Msgs.append("Kazanan Oyuncu 1")
                 else:self.Msgs.append("Kazanan Oyuncu 2")
         else:
