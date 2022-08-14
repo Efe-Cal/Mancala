@@ -1,18 +1,22 @@
 import pygame
 import os
 from mangala import Mangala
-from tkinter import Tk,messagebox
+from tkinter import Tk,messagebox,filedialog
 import event_scheduler
+from sys import argv
 mang=Mangala()
 WIDTH, HEIGHT = 900, 500
 WIN = pygame.display.set_mode ((WIDTH, HEIGHT))
 pygame.display.set_caption("Mangala")
-bg = pygame.transform.scale(pygame.image.load(os.path.join("Assets","bg.png")),(900,500))
-helpB=pygame.transform.scale(pygame.image.load(os.path.join("Assets","help_button.png")),(50,50))
-arrows=pygame.transform.scale(pygame.image.load(os.path.join("Assets","arrows.png")),(150,150))
+abspath=os.path.dirname(os.path.abspath(__file__))
+bg = pygame.transform.scale(pygame.image.load(os.path.join(abspath,"Assets","bg.png")),(900,500))
+helpB=pygame.transform.scale(pygame.image.load(os.path.join(abspath,"Assets","help_button.png")),(50,50))
+arrows=pygame.transform.scale(pygame.image.load(os.path.join(abspath,"Assets","arrows.png")),(150,150))
+saveB=pygame.transform.scale(pygame.image.load(os.path.join(abspath,"Assets","save.png")),(50,50))
+openB=pygame.transform.scale(pygame.image.load(os.path.join(abspath,"Assets","open.png")),(30,30))
 pygame.init()
 font = pygame.font.Font('freesansbold.ttf', 32)
-
+loaded=False
 def add_nums2holes(uR=False):
     nums=mang.get_data(uR)
     cords=[(160,330),
@@ -63,12 +67,16 @@ def add_seeds(uR):
 bgl = [bg,(0,0)]
 def draw_win_bg(uR=False):
     global bgl
-    WIN.fill((0,0,0))
-    WIN.blit(bgl[0], bgl[1])
-    WIN.blit(helpB,(850,0))
     if bgl==[bg,(0,0)]:
+        WIN.blit(bgl[0], bgl[1])
         add_seeds(uR)
         add_nums2holes(uR)
+        WIN.blit(helpB,(850,0))
+        WIN.blit(saveB,(0,0))
+        WIN.blit(openB,(55,0))
+    else:
+        WIN.fill((0,0,0))
+        WIN.blit(bgl[0], bgl[1])
     
     
 def button(x:int,y:int,w:int,h:int,pos:tuple):
@@ -115,7 +123,7 @@ def rotationJob():
 
 def main():
     run = True
-    global show,bgl,DO_ROT1TIME,PAUSE_UPDATING_SCREEN,eventsc
+    global show,bgl,DO_ROT1TIME,PAUSE_UPDATING_SCREEN,eventsc,loaded
     show=[]
     DO_ROT1TIME=False
     PAUSE_UPDATING_SCREEN=False
@@ -130,7 +138,21 @@ def main():
                 pos = pygame.mouse.get_pos()
                 if 900>pos[0]>850 and 50>pos[1]>0:
                     mang.Msgs.append(open("rules.txt","r",encoding="utf-8").read())
-
+                elif pos[0]<50 and pos[1]<50:
+                    if not loaded:
+                        try:
+                            filedialog.asksaveasfile(mode="w",initialfile = 'Untitled.mancala',
+                                             defaultextension=".mancala",filetypes=[("Mancala Game Saves","*.mancala")
+                                            ,("All Files","*.*")]).write(str(mang.get_data(saveM=True)))
+                        except:pass
+                    else:
+                        open(argv[1],"w").write(mang.get_data(saveM=True))
+                elif 55<pos[0]<85 and pos[1]<30:
+                    try:
+                        mang.load_data(p:=filedialog.askopenfilename(defaultextension=".mancala",filetypes=[("Mancala Game Saves","*.mancala")]))
+                        argv.append(p)
+                        loaded=True
+                    except FileNotFoundError:pass
                 button(150,310,70,110,pos)
                 button(250,310,70,110,pos)
                 button(365,310,70,110,pos)
@@ -154,5 +176,8 @@ def main():
     
     
 if __name__ == '__main__':
+    if len(argv)==2:
+        loaded=True
+        mang.load_data(argv[1])
     main()
     eventsc.stop(True)

@@ -70,24 +70,21 @@ class Mangala():
             if start_index==6:self.Msgs.append("Bu taşlar hareket ettirilemez.")
             if player!=self.current_player:self.Msgs.append("Sıra diğer oyuncuda.")
             if self.tahta[player][start_index]==0:self.Msgs.append("Bu kuyuda hiç taş yok.")
-    def get_data(self,undoRotate=False):
+    def get_data(self,undoRotate=False,saveM=False):
         if not undoRotate:
-            if self.current_player==0:return self.tahta[0]+self.tahta[1]
-            else:return self.tahta[1]+self.tahta[0]
+            if not saveM:
+                if self.current_player==0:return self.tahta[0]+self.tahta[1]
+                else:return self.tahta[1]+self.tahta[0]
+            else:return (str(self.tahta[0])+"|"+str(self.tahta[1])).replace("[","").replace("]","")
         else:
             if self.current_player==1:return self.tahta[0]+self.tahta[1]
             else:return self.tahta[1]+self.tahta[0]
-        
+    def load_data(self,path):
+        l = open(path,"r").read().split("|")
+        l[0] = [int(i) for i in l[0].split(",")]
+        l[1] = [int(i) for i in l[1].split(",")]
+        self.tahta=l
         
 if __name__=="__main__":
     m=Mangala()
-    m.play(3,0)
-    print(m.tahta)
-    m.play(2,0)
-    print(m.tahta)
-    m.play(3,1)
-    print(m.tahta)
-    m.play(2,1)
-    print(m.tahta)
-    m.play(4,0)
-    print(m.tahta)
+    print(m.get_data(saveM=True))
