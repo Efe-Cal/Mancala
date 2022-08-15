@@ -3,6 +3,7 @@ class Mangala():
         self.tahta=[[4,4,4,4,4,4,0],[4,4,4,4,4,4,0]]
         self.current_player=0
         self.Msgs=[]
+        self.situ=None
     def play(self,start_index:int,player:int):
         """This is the basic method of game that replace the stones between holes
 
@@ -13,8 +14,8 @@ class Mangala():
         Returns:nothing
             _type_: _description_
         """
-        PLAYABLE_HOLE=start_index!=6 and self.tahta[player][start_index]!=0
-        CORRECT_PLAYER=player==self.current_player
+        PLAYABLE_HOLE = start_index!=6 and self.tahta[player][start_index]!=0
+        CORRECT_PLAYER = player==self.current_player
         # [Following if block] checks if the hole is playable
         if PLAYABLE_HOLE and CORRECT_PLAYER: 
             addone=0
@@ -30,17 +31,17 @@ class Mangala():
                         # [Following if block] checks if the situation in 3rd rule and enforces the rule
                         REQ_FOR_3RD_RULE=self.tahta[player][start_index+i+subtract]==1 and start_index+i+subtract!=6 and self.tahta[0 if player else 1][5-(start_index+i+subtract)]!=0
                         if self.LAST_STONE and REQ_FOR_3RD_RULE :
-                            # print("*****")
+                            self.situ="3rdR"
                             self.tahta[player][6] += self.tahta[player][start_index+i+subtract] + self.tahta[0 if player else 1][5-(start_index+i+subtract)]
                             self.tahta[player][start_index+i+subtract]=0
                             self.tahta[0 if player else 1][5-(start_index+i+subtract)]=0
                     case a if 13>a>6:
                         self.tahta[0 if player else 1][(start_index+i)-7]+=1
                         subtract=-7
-                        # [Following if block] checks if the situation in 2nd rule and enforces the rule
-                        if self.LAST_STONE: 
-                            # print("###")
+                        if self.LAST_STONE:
+                            # [Following if block] checks if the situation in 2nd rule and enforces the rule
                             if self.tahta[switchedplayer][(start_index+i)+subtract]%2==0:
+                                self.situ="2ndR"
                                 self.tahta[player][6]+=self.tahta[switchedplayer][(start_index+i)+subtract]
                                 self.tahta[switchedplayer][(start_index+i)+subtract]=0
                     case 13:continue
@@ -50,6 +51,7 @@ class Mangala():
                         # [Following if block] checks if the situation in 3rd rule and enforces the rule
                         REQ_FOR_3RD_RULE=self.tahta[player][start_index+i+subtract]==1 and start_index+i+subtract!=6 and self.tahta[0 if player else 1][5-(start_index+i+subtract)]!=0
                         if self.LAST_STONE and REQ_FOR_3RD_RULE :
+                            self.situ="3rdR"
                             self.tahta[player][6] += self.tahta[player][start_index+i+subtract] + self.tahta[0 if player else 1][5-(start_index+i+subtract)]
                             self.tahta[player][start_index+i+subtract]=0
                             self.tahta[0 if player else 1][5-(start_index+i+subtract)]=0
@@ -60,6 +62,7 @@ class Mangala():
             else:self.tahta[player][start_index]=0
             self.LAST_STONE_IN_STORE=start_index+bkts-1==6
             if not self.LAST_STONE_IN_STORE:self.current_player=0 if self.current_player else 1
+            else:self.situ="LSIS"
             # [Following if block] checks win situation
             if self.tahta[0].count(0)==6 or self.tahta[1].count(0)==6:
                 switchedplayer = 0 if player else 1

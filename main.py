@@ -93,7 +93,7 @@ def button(x:int,y:int,w:int,h:int,pos:tuple):
             if 575<mx<645:mang.play(4,mang.current_player)
             if 685<mx<755:mang.play(5,mang.current_player)
         if mang.LAST_STONE_IN_STORE==False:
-            show.append(arrows)
+            show.append([arrows,(375,175)])
             DO_ROT1TIME = True
             
 
@@ -103,10 +103,9 @@ def show_msg():
         messagebox.showinfo("",i)
         mang.Msgs.clear()
 
-def clear(): # removes arrows from sceen by clearing show list
-    global show,b
-    show.clear()
-    b = False
+def clear_arrows():
+    global show
+    show.remove([arrows,(375,175)])
     
 def reset_bg():
     global bgl
@@ -115,7 +114,7 @@ rotated=pygame.transform.rotate(pygame.transform.scale(bg,(500,277)),90.0)
 def rotationJob():
     global bgl,show,PAUSE_UPDATING_SCREEN
     PAUSE_UPDATING_SCREEN = False
-    eventsc.enter(.7,1,clear)
+    eventsc.enter(.7,1,clear_arrows)
     bgl=[rotated,(312,0)]
     eventsc.enter(.7,2,reset_bg)
 
@@ -161,19 +160,44 @@ def main():
                 button(685,310,70,110,pos)
         show_msg()
         
-        try:
-            WIN.blit(show[0],(375,175))
-            if DO_ROT1TIME:
-                eventsc.enter(1.2,0,rotationJob)
-                DO_ROT1TIME=False
-                PAUSE_UPDATING_SCREEN=True
-                draw_win_bg(True)
-                pygame.display.update()
-        except IndexError:pass
+        match mang.situ:
+            case "3rdR":
+                show.append(l:=[a:=font.render("Boşyer kalmasın",True,(0,0,0)),(450-(a.get_size()[0]//2),250-(a.get_size()[1]//2))])
+                mang.situ=None
+                def clearT():
+                    if l in show:
+                        show.remove(l)
+                eventsc.enter(1.2,0,clearT)
+            case "2ndR":
+                show.append(l:=[a:=font.render("Çift taş",True,(0,0,0)),(450-(a.get_size()[0]//2),250-(a.get_size()[1]//2))])
+                mang.situ=None
+                def clearT():
+                    if l in show:
+                        show.remove(l)
+                eventsc.enter(1.2,0,clearT)
+            case "LSIS":
+                show.append(l:=[a:=font.render("Son taş hazinede",True,(0,0,0)),(450-(a.get_size()[0]//2),250-(a.get_size()[1]//2))])
+                mang.situ=None
+                def clearT():
+                    if l in show:
+                        show.remove(l)
+                eventsc.enter(1.2,0,clearT)
+        if DO_ROT1TIME:
+            eventsc.enter(1.2,0,rotationJob)
+            DO_ROT1TIME=False
+            PAUSE_UPDATING_SCREEN=True
+            draw_win_bg(True)
+            for x in show:
+                if not x[0]==arrows:
+                    WIN.blit(x[0],x[1])
+            pygame.display.update()
+        else:
+            for x in show:
+                WIN.blit(x[0],x[1])    
+
         
         if not PAUSE_UPDATING_SCREEN:pygame.display.update()
     pygame.quit()
-    
     
 if __name__ == '__main__':
     if len(argv)==2:
@@ -181,3 +205,9 @@ if __name__ == '__main__':
         mang.load_data(argv[1])
     main()
     eventsc.stop(True)
+    
+    
+    
+    
+
+    
