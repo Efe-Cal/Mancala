@@ -14,6 +14,7 @@ helpB=pygame.transform.scale(pygame.image.load(os.path.join(abspath,"Assets","he
 arrows=pygame.transform.scale(pygame.image.load(os.path.join(abspath,"Assets","arrows.png")),(150,150))
 saveB=pygame.transform.scale(pygame.image.load(os.path.join(abspath,"Assets","save.png")),(50,50))
 openB=pygame.transform.scale(pygame.image.load(os.path.join(abspath,"Assets","open.png")),(30,30))
+rematch_=pygame.transform.scale(pygame.image.load(os.path.join(abspath,"Assets","rematch.png")),(30,30))
 pygame.init()
 font = pygame.font.Font('freesansbold.ttf', 32)
 loaded=False
@@ -74,6 +75,7 @@ def draw_win_bg(uR=False):
         WIN.blit(helpB,(850,0))
         WIN.blit(saveB,(0,0))
         WIN.blit(openB,(55,0))
+        WIN.blit(rematch_,(90,0))
     else:
         WIN.fill((0,0,0))
         WIN.blit(bgl[0], bgl[1])
@@ -122,7 +124,7 @@ def rotationJob():
 
 def main():
     run = True
-    global show,bgl,DO_ROT1TIME,PAUSE_UPDATING_SCREEN,eventsc,loaded
+    global show,bgl,DO_ROT1TIME,PAUSE_UPDATING_SCREEN,eventsc,loaded,mang
     show=[]
     DO_ROT1TIME=False
     PAUSE_UPDATING_SCREEN=False
@@ -152,6 +154,12 @@ def main():
                         argv.append(p)
                         loaded=True
                     except FileNotFoundError:pass
+                elif 90<pos[0]<120 and pos[1]<30:
+                    #rematch
+                    Tk().withdraw()
+                    if messagebox.askyesno("Yeniden Başlat","Oyunu yeniden başlatmak istediğinize emin misiniz?"):
+                        mang=Mangala()
+                
                 button(150,310,70,110,pos)
                 button(250,310,70,110,pos)
                 button(365,310,70,110,pos)
