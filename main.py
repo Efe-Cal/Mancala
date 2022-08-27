@@ -85,15 +85,12 @@ def button(x:int,y:int,w:int,h:int,pos:tuple):
     global DO_ROT1TIME
     if x+w>pos[0]>x and  y+h>pos[1]>y:
         mx=pos[0]
-        if 100<pos[1]<210: # checks if the curser is in the 1st row
-            mang.Msgs.append("Rakibinin taşlarını oynayamazsın")
-        else: 
-            if 150<mx<220:mang.play(0,mang.current_player)
-            if 250<mx<320:mang.play(1,mang.current_player)
-            if 365<mx<435:mang.play(2,mang.current_player)
-            if 475<mx<545:mang.play(3,mang.current_player)
-            if 575<mx<645:mang.play(4,mang.current_player)
-            if 685<mx<755:mang.play(5,mang.current_player)
+        if 150<mx<220:mang.play(0,mang.current_player)
+        if 250<mx<320:mang.play(1,mang.current_player)
+        if 365<mx<435:mang.play(2,mang.current_player)
+        if 475<mx<545:mang.play(3,mang.current_player)
+        if 575<mx<645:mang.play(4,mang.current_player)
+        if 685<mx<755:mang.play(5,mang.current_player)
         if mang.LAST_STONE_IN_STORE==False:
             show.append([arrows,(375,175)])
             DO_ROT1TIME = True
@@ -159,13 +156,15 @@ def main():
                     Tk().withdraw()
                     if messagebox.askyesno("Yeniden Başlat","Oyunu yeniden başlatmak istediğinize emin misiniz?"):
                         mang=Mangala()
-                
-                button(150,310,70,110,pos)
-                button(250,310,70,110,pos)
-                button(365,310,70,110,pos)
-                button(475,310,70,110,pos)
-                button(575,310,70,110,pos)
-                button(685,310,70,110,pos)
+                if 100<pos[1]<210: # checks if the curser is in the 1st row
+                    mang.Msgs.append("Rakibinin taşlarını oynayamazsın")
+                else:
+                    button(150,310,70,110,pos)
+                    button(250,310,70,110,pos)
+                    button(365,310,70,110,pos)
+                    button(475,310,70,110,pos)
+                    button(575,310,70,110,pos)
+                    button(685,310,70,110,pos)
         show_msg()
         
         match mang.situ:
