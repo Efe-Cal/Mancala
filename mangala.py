@@ -79,14 +79,15 @@ class Mangala():
             if not saveM:
                 if self.current_player==0:return self.tahta[0]+self.tahta[1]
                 else:return self.tahta[1]+self.tahta[0]
-            else:return (str(self.tahta[0])+"|"+str(self.tahta[1])).replace("[","").replace("]","")
+            else:return (str(self.tahta[0])+"|"+str(self.tahta[1])+"|"+str(self.current_player)).replace("[","").replace("]","")
         else:
             if self.current_player==1:return self.tahta[0]+self.tahta[1]
             else:return self.tahta[1]+self.tahta[0]
-    def load_data(self,path):
-        l = open(path,"r").read().split("|")
+    def load_data(self,string):
+        l = string.split("|")
         l[0] = [int(i) for i in l[0].split(",")]
         l[1] = [int(i) for i in l[1].split(",")]
+        self.current_player=int(l[2])
         self.tahta=l
         
 if __name__=="__main__":
