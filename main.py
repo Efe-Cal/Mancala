@@ -102,20 +102,13 @@ def show_msg():
         messagebox.showinfo("",i)
         mang.Msgs.clear()
 
-def clear_arrows():
-    global show
-    show.remove([arrows,(375,175)])
-    
-def reset_bg():
-    global bgl
-    bgl = [bg,(0,0)]
 rotated=pygame.transform.rotate(pygame.transform.scale(bg,(500,277)),90.0)  
 def rotationJob():
     global bgl,show,PAUSE_UPDATING_SCREEN
     PAUSE_UPDATING_SCREEN = False
-    eventsc.enter(.7,1,clear_arrows)
+    eventsc.enter(.7,1,lambda:show.remove([arrows,(375,175)]))
     bgl=[rotated,(312,0)]
-    eventsc.enter(.7,2,reset_bg)
+    eventsc.enter(.7,2,lambda:(bgl.clear(),bgl.append(bg),bgl.append((0,0))))
 
 
 
